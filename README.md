@@ -24,6 +24,7 @@ Questions
 #### 2. Exercises 10.1 and 10.2 from http://opendatastructures.org/ods-cpp/10_3_Discussion_Exercises.html
 
 10.1)
+
 	add(7)
 	7 would be added as the left child of 16. 
 	 > 4, 9, 6, 17, 26, 8, 16, 19, 69, 32, 93, 55, 50, 7
@@ -41,6 +42,7 @@ Questions
 	 > 3, 9, 4, 17, 26, 8, 6, 19, 69, 32, 93, 55, 50, 16, 7
 
 10.2)
+
 	remove(6)
 	6 will be removed from the heap.
 	 > x, 9, 8, 17, 26, 50, 16, 19, 69, 32, 93, 55
