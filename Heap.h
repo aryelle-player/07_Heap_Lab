@@ -5,19 +5,10 @@
 #define START_SIZE 10
 
 /*
-<<<<<<< HEAD
 * This is a priority queue, which means that as items are removed in order
 * of decreasing priority.
 */
 
-
-=======
- * This is a priority queue, which means that as items are removed in order
- * of decreasing priority.
- *
- *
- */
->>>>>>> 7ab1af13d592d2ddad95ffee9bbe4ae4e8639ef5
 template<class Pri, class T>
 class Heap : public Queue < std::pair<Pri, T> > {
 public:
@@ -25,19 +16,11 @@ public:
 	~Heap();
 
 	//Add a new item
-<<<<<<< HEAD
 	virtual void add(std::pair<Pri,T> toAdd);
 
 	//Remove the item with lowest priority, and return it
 	//If the queue is empty, throw a string exception
 	virtual std::pair<Pri,T> remove();
-=======
-	virtual void add(std::pair<Pri, T> toAdd);
-
-	//Remove the item with lowest priority, and return it
-	//If the queue is empty, throw a string exception
-	virtual std::pair<Pri, T> remove();
->>>>>>> 7ab1af13d592d2ddad95ffee9bbe4ae4e8639ef5
 
 	//Return the number of items currently in the queue
 	virtual unsigned long getNumItems();
@@ -59,55 +42,8 @@ private:
 	//Check the item at index, and make sure it is in the right place.
 	// If not, swap it down the "tree" of the heap until you find the right
 	// place
-<<<<<<< HEAD
 	void trickleDown(unsigned long index);  
 };
-
-
-#include <string>
-
-template<class Pri, class T>
-Heap<Pri,T>::Heap(){
-	arrSize = 10;
-	numItems = 0;
-	backingArray = NULL;
-}
-
-template<class Pri, class T>
-Heap<Pri,T>::~Heap(){
-	//TODO
-}
-
-template<class Pri, class T>
-void Heap<Pri,T>::grow(){
-	//TODO
-}
-
-template<class Pri, class T>
-void Heap<Pri,T>::add(std::pair<Pri,T> toAdd){
-	//TODO
-}
-
-template<class Pri, class T>
-void Heap<Pri,T>::bubbleUp(unsigned long index){
-	//TODO
-}
-
-template<class Pri, class T>
-void Heap<Pri,T>::trickleDown(unsigned long index){
-	//TODO
-}
-
-template<class Pri, class T>
-std::pair<Pri,T> Heap<Pri,T>::remove(){
-	//TODO
-	std::pair<Pri,T> tmp;
-=======
-	void trickleDown(unsigned long index);
-};
-
-
-
 
 
 #include <string>
@@ -168,23 +104,45 @@ void Heap<Pri, T>::bubbleUp(unsigned long index){
 
 template<class Pri, class T>
 void Heap<Pri, T>::trickleDown(unsigned long index){
-	while (index >= 0){
-		std::pair<Pri, T> leftchild = backingArray[(2 * index) + 1];
-		std::pair<Pri, T> rightchild = backingArray[(2 * index) + 2];
-	
-		if (leftchild < backingArray[index]){
-			backingArray[(2 * index) + 1] = backingArray[index];
-			backingArray[index] = leftchild;
-		}
-		if (rightchild < backingArray[index]){
-			backingArray[(2 * index) + 2] = backingArray[index];
-			backingArray[index] = rightchild;
-		}
-		else{
-			index = -1;
-		}
-		index = -1;
+	/*while (index >= 0){
+	std::pair<Pri, T> leftchild = backingArray[(2 * index) + 1];
+	std::pair<Pri, T> rightchild = backingArray[(2 * index) + 2];
+
+	if (leftchild < backingArray[index]){
+	backingArray[(2 * index) + 1] = backingArray[index];
+	backingArray[index] = leftchild;
 	}
+	if (rightchild < backingArray[index]){
+	backingArray[(2 * index) + 2] = backingArray[index];
+	backingArray[index] = rightchild;
+	}
+	else{
+	index = -1;
+	}
+	index = -1;
+	}*/
+	do {
+		int j = -1;
+		int right = (2 * index) + 2;
+		if (right < numItems && backingArray[right] < backingArray[index]) {
+			int left = (2 * index) + 1;
+			if (backingArray[left] < backingArray[right]) {
+				j = left;
+			} else {
+				j = right;
+			}
+		} else {
+			int left = (2 * index) + 1;
+			if (left < numItems && backingArray[left] < backingArray[index]) {
+				j = left;
+			}
+		}
+		if (j >= 0) {
+			backingArray[index] = backingArray[j];
+			//backingArray.swap(index, j);
+		}
+		index = j;
+	} while (index >= 0);
 }
 
 template<class Pri, class T>
@@ -197,17 +155,10 @@ std::pair<Pri, T> Heap<Pri, T>::remove(){
 	backingArray[0] == backingArray[numItems - 1];
 	numItems--;
 	trickleDown(0);
->>>>>>> 7ab1af13d592d2ddad95ffee9bbe4ae4e8639ef5
 	return tmp;
 }
 
 template<class Pri, class T>
-<<<<<<< HEAD
-unsigned long Heap<Pri,T>::getNumItems(){
-	//TODO
-	return 0;
-=======
 unsigned long Heap<Pri, T>::getNumItems(){
 	return numItems;
->>>>>>> 7ab1af13d592d2ddad95ffee9bbe4ae4e8639ef5
 }
