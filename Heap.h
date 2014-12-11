@@ -16,11 +16,11 @@ public:
 	~Heap();
 
 	//Add a new item
-	virtual void add(std::pair<Pri,T> toAdd);
+	virtual void add(std::pair<Pri, T> toAdd);
 
 	//Remove the item with lowest priority, and return it
 	//If the queue is empty, throw a string exception
-	virtual std::pair<Pri,T> remove();
+	virtual std::pair<Pri, T> remove();
 
 	//Return the number of items currently in the queue
 	virtual unsigned long getNumItems();
@@ -42,7 +42,7 @@ private:
 	//Check the item at index, and make sure it is in the right place.
 	// If not, swap it down the "tree" of the heap until you find the right
 	// place
-	void trickleDown(unsigned long index);  
+	void trickleDown(unsigned long index);
 };
 
 
@@ -77,72 +77,63 @@ void Heap<Pri, T>::grow(){
 
 template<class Pri, class T>
 void Heap<Pri, T>::add(std::pair<Pri, T> toAdd){
-	//if item is not in heap
 	if (numItems + 1 > arrSize){
 		grow();
 	}
-	if (numItems + 1 < arrSize){
-		int index = numItems + 1;
-		backingArray[index] = toAdd;
-		numItems++;
-		bubbleUp((index - 1) / 2);
-	}
+
+	int index = numItems;
+	backingArray[index] = toAdd;
+	numItems++;
+	bubbleUp(index);
+
 }
 
 template<class Pri, class T>
 void Heap<Pri, T>::bubbleUp(unsigned long index){
 	std::pair<Pri, T> temp = backingArray[index];
 
-	while (index > 0 && backingArray[(index - 1) / 2] < temp){
-		backingArray[index] = backingArray[(index - 1) / 2];
+	if (index > 0 && backingArray[(index - 1) / 2].first > backingArray[index].first){
+		backingArray[(index - 1) / 2] = backingArray[index];
+		bubbleUp((index - 1) / 2);
 
-		backingArray[(index - 1) / 2] == temp;
-
-		index = (index - 1) / 2;
 	}
 }
 
 template<class Pri, class T>
 void Heap<Pri, T>::trickleDown(unsigned long index){
-	/*while (index >= 0){
-	std::pair<Pri, T> leftchild = backingArray[(2 * index) + 1];
-	std::pair<Pri, T> rightchild = backingArray[(2 * index) + 2];
-
-	if (leftchild < backingArray[index]){
-	backingArray[(2 * index) + 1] = backingArray[index];
-	backingArray[index] = leftchild;
-	}
-	if (rightchild < backingArray[index]){
-	backingArray[(2 * index) + 2] = backingArray[index];
-	backingArray[index] = rightchild;
-	}
-	else{
-	index = -1;
-	}
-	index = -1;
-	}*/
+	int i = -1;
 	do {
-		int j = -1;
+		std::pair<Pri, T> temp = backingArray[index];
 		int right = (2 * index) + 2;
-		if (right < numItems && backingArray[right] < backingArray[index]) {
-			int left = (2 * index) + 1;
-			if (backingArray[left] < backingArray[right]) {
-				j = left;
-			} else {
-				j = right;
+		int left = (2 * index) + 1;
+
+		if (right < numItems && backingArray[right].first < backingArray[index].first) {
+			if (backingArray[left].first < backingArray[right].first) {
+				backingArray[index] = backingArray[left];
+				backingArray[left] = temp;
+				index = left;
+				i = 0;
 			}
-		} else {
-			int left = (2 * index) + 1;
-			if (left < numItems && backingArray[left] < backingArray[index]) {
-				j = left;
+			else {
+				backingArray[index] = backingArray[right];
+				backingArray[right] = temp;
+				index = right;
+				i = 0;
 			}
 		}
-		if (j >= 0) {
-			backingArray[index] = backingArray[j];
-			//backingArray.swap(index, j);
+
+		else {
+			if (left < numItems && backingArray[left].first < backingArray[index].first) {
+				backingArray[index] = backingArray[left];
+				backingArray[left] = temp;
+				index = left;
+				i = 0;
+			}
+			else{
+				i = 0;
+			}
 		}
-		index = j;
-	} while (index >= 0);
+	} while (i < 0);
 }
 
 template<class Pri, class T>
@@ -151,11 +142,11 @@ std::pair<Pri, T> Heap<Pri, T>::remove(){
 		throw std::string("Queue is empty...");
 	}
 
-	std::pair<Pri, T> tmp = backingArray[0];
+	std::pair<Pri, T> temp = backingArray[0];
 	backingArray[0] == backingArray[numItems - 1];
 	numItems--;
 	trickleDown(0);
-	return tmp;
+	return temp;
 }
 
 template<class Pri, class T>
